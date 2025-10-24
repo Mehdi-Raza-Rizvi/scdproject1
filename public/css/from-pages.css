@@ -1,0 +1,76 @@
+/* General Section Styling */
+.sell-hero,
+.appointment-hero {
+    text-align: center;
+    background: #f2f2f2;
+    padding: 50px 20px;
+    margin-bottom: 30px;
+}
+
+.sell-hero h1,
+.appointment-hero h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.sell-section,
+.appointment-section {
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    padding: 35px 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 3px 12px rgba(0,0,0,0.08);
+}
+
+/* Sell Form */
+.sell-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.sell-form label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.sell-form input,
+.sell-form textarea {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.sell-btn {
+    width: 180px;
+    padding: 12px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Appointment Page */
+.appointment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.appointment-list li {
+    background: #007bff;
+    color: #fff;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.no-appointments {
+    font-size: 16px;
+    color: #777;
+    text-align: center;
+}

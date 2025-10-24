@@ -1,0 +1,327 @@
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }
+.navbar { background: #333; padding: 10px; text-align: center; }
+.navbar a { color: #fff; margin: 0 15px; text-decoration: none; }
+h2 { margin: 20px; }
+.card { background: #fff; padding: 10px; width: 250px; margin: 10px; display: inline-block; }
+.card img { width: 50%; /* Or any other specific width */
+  margin: 0 auto; }
+.slider img { width: 100%; height: 350px; object-fit: cover; }
+.search-form input, .search-form button, .sell-form input, textarea, button { padding: 10px; margin: 8px; }
+footer { text-align: center; background: #222; color: #fff; padding: 10px; margin-top: 20px; }
+.btn { display: inline-block; padding: 10px; background: #007bff; color: #fff; text-decoration: none; }
+
+
+/* Home Page Styles */
+.hero-section {
+    margin-bottom: 2rem;
+}
+
+.hero-container {
+    position: relative;
+    background-color: #1f2937;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 16rem;
+    object-fit: cover;
+}
+
+@media (min-width: 640px) {
+    .hero-image {
+        height: 20rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-image {
+        height: 24rem;
+    }
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: black;
+    opacity: 0.7;
+}
+
+.hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+}
+
+.hero-content h1 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+    .hero-content h1 {
+        font-size: 2.25rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+}
+
+.hero-content p {
+    font-size: 1.125rem;
+    color: #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+    .hero-content p {
+        font-size: 1.25rem;
+    }
+}
+
+/* Filter Section */
+.filter-section {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+}
+
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .filter-container {
+        flex-direction: row;
+    }
+}
+
+.filter-group {
+    flex: 1;
+    position: relative;
+}
+
+.filter-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+.select-wrapper select {
+    margin-top: 0.25rem;
+    display: block;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 0.75rem;
+    padding-left: 2.5rem;
+    font-size: 0.875rem;
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-button {
+    background-color: #2563eb;
+    color: white;
+    font-weight: bold;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: #1d4ed8;
+}
+
+.search-button i {
+    margin-right: 0.5rem;
+}
+
+/* Featured Properties Section */
+.featured-section {
+    margin-bottom: 3rem;
+}
+
+.featured-section h2 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 1.5rem;
+}
+
+.properties-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .properties-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .properties-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.property-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.property-card:hover {
+    transform: scale(1.05);
+}
+
+.property-card img {
+    width: 100%;
+    height: 14rem;
+    object-fit: cover;
+}
+
+.property-details {
+    padding: 1.5rem;
+}
+
+.property-type {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.property-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2563eb;
+    margin: 0.5rem 0;
+}
+
+.property-location {
+    font-size: 1.125rem;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.property-location i {
+    color: #6b7280;
+    margin-right: 0.5rem;
+}
+
+.property-features {
+    display: flex;
+    justify-content: space-between;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+}
+
+.feature i {
+    color: #3b82f6;
+    margin-right: 0.5rem;
+}
+
+.feature strong {
+    color: #1f2937;
+    margin-right: 0.25rem;
+}
+
+/* Reviews Section */
+.reviews-section {
+    margin-bottom: 3rem;
+}
+
+.reviews-section h2 {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: #111827;
+    margin-bottom: 1.5rem;
+}
+
+.reviews-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .reviews-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.review-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.review-card p {
+    font-style: italic;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+.rating {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.reviewer {
+    font-weight: 600;
+    color: #374151;
+}
+
