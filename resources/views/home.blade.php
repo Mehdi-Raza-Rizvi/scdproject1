@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -20,8 +21,8 @@
       <img src="https://img.lovepik.com/background/20211021/large/lovepik-atmospheric-business-building-background-image_401688816.jpg" alt="Real estate office">
     </div>
     <div class="col">
-      <h2>About CM Real Estate</h2>
-      <p>With 30+ years of excellence, CM Real Estate has been Pakistan’s most trusted name in property services, connecting clients to their dream homes and investments.</p>
+      <h2>About Tabani Real Estate</h2>
+      <p>With 30+ years of excellence, Tabani Real Estate has been Pakistan’s most trusted name in property services, connecting clients to their dream homes and investments.</p>
     </div>
   </div>
 </section>
@@ -53,13 +54,13 @@
       <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmed R">
       <p>"Amazing service! Found my dream home in Islamabad within a week."</p>
       <div class="rating">⭐⭐⭐⭐⭐</div>
-      <span>- Alex R.</span>
+      <span>- Ahmed R.</span>
     </div>
     <div class="card">
       <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Fatima S">
       <p>"Best property listings in Pakistan. Highly recommended!"</p>
       <div class="rating">⭐⭐⭐⭐⭐</div>
-      <span>- Natasha R.</span>
+      <span>- Fatima S.</span>
     </div>
     <div class="card">
       <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Bilal K">
