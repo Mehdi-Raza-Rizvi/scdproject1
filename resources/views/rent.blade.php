@@ -1,68 +1,125 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-container">
 
-    <!-- Rent Filter Section -->
-    <div class="rent-filter-box">
-        <h2>Find Rental Properties</h2>
+<!-- Hero -->
+<section class="hero center" style="background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') center/cover no-repeat; height: 60vh;">
+  <div>
+    <h1>Find Your Ideal Rental</h1>
+    <p>Discover premium apartments, houses, and offices for rent across Pakistan.</p>
+    <button class="btn">Browse Rentals</button>
+  </div>
+</section>
 
-        <div class="filter-row">
-            <!-- Location Dropdown -->
-            <select>
-                <option value="">Select Location</option>
-                <option value="karachi">Karachi</option>
-                <option value="lahore">Lahore</option>
-            </select>
+<!-- Rental Listings -->
+<section class="container">
+  <h2 class="title">Available Rentals</h2>
+  <div class="grid">
 
-            <!-- Rent Price Type Dropdown -->
-            <select>
-                <option value="">Rent Price Type</option>
-                <option value="month">Per Month</option>
-                <option value="week">Per Week</option>
-                <option value="day">Per Day</option>
-            </select>
-
-            <button class="btn">Apply</button>
-        </div>
+    <!-- Each Property Card -->
+    <div class="card5">
+      <img src="https://www.nation.com.pk/digital_images/large/2016-02-18/4-reasons-why-apartment-living-is-popular-in-karachi-1455810590-9378.jpg" alt="Apartment in Karachi">
+      <h3>Luxury Apartment - Karachi</h3>
+      <p>2 Bed | 2 Bath | DHA Phase 6</p>
+      <p><strong>Rs 120,000/month</strong></p>
+      <button class="btn book-btn"
+        data-title="Luxury Apartment - Karachi"
+        data-details="2 Bed | 2 Bath | DHA Phase 6"
+        data-price="Rs 120,000/month"
+        data-img="https://www.nation.com.pk/digital_images/large/2016-02-18/4-reasons-why-apartment-living-is-popular-in-karachi-1455810590-9378.jpg">
+        Book Appointment
+      </button>
     </div>
 
-    <!-- Property Listing Section -->
-    <div class="rent-list">
-
-        <!-- Sample Property 1 -->
-        <div class="card">
-            <img src="https://via.placeholder.com/300" alt="">
-            <p class="title">2 Bedroom Apartment – Karachi</p>
-            <p class="details">2 Beds | 1 Bath | PKR 40,000 / month</p>
-            <a href="{{ route('appointment.add', ['id' => 1]) }}" class="btn">Book Appointment</a>
-        </div>
-
-        <!-- Sample Property 2 -->
-        <div class="card">
-            <img src="https://via.placeholder.com/300" alt="">
-            <p class="title">Furnished Studio – Lahore</p>
-            <p class="details">1 Bed | 1 Bath | PKR 18,000 / week</p>
-            <a href="{{ route('appointment.add', ['id' => 2]) }}" class="btn">Book Appointment</a>
-        </div>
-
-        <!-- Sample Property 3 -->
-        <div class="card">
-            <img src="https://via.placeholder.com/300" alt="">
-            <p class="title">Modern Flat – Karachi</p>
-            <p class="details">3 Beds | 2 Baths | PKR 5,000 / day</p>
-            <a href="{{ route('appointment.add', ['id' => 3]) }}" class="btn">Book Appointment</a>
-        </div>
-
-        <!-- Sample Property 4 -->
-        <div class="card">
-            <img src="https://via.placeholder.com/300" alt="">
-            <p class="title">Luxury Villa – Lahore</p>
-            <p class="details">4 Beds | 3 Baths | PKR 150,000 / month</p>
-            <a href="{{ route('appointment.add', ['id' => 4]) }}" class="btn">Book Appointment</a>
-        </div>
-
+    <div class="card5">
+      <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4" alt="House in Lahore">
+      <h3>Family House - Lahore</h3>
+      <p>3 Bed | 3 Bath | Model Town</p>
+      <p><strong>Rs 180,000/month</strong></p>
+      <button class="btn book-btn"
+        data-title="Family House - Lahore"
+        data-details="3 Bed | 3 Bath | Model Town"
+        data-price="Rs 180,000/month"
+        data-img="https://images.unsplash.com/photo-1560185127-6ed189bf02f4">
+        Book Appointment
+      </button>
     </div>
 
-</div>
+    <div class="card5">
+      <img src="https://smartbenefits.pk/wp-content/uploads/2024/01/KickStart-Co-Working-Space-in-Islamabad-1024x768-1.jpg" alt="Office in Islamabad">
+      <h3>Office Space - Islamabad</h3>
+      <p>1200 sqft | Blue Area</p>
+      <p><strong>Rs 250,000/month</strong></p>
+      <button class="btn book-btn"
+        data-title="Office Space - Islamabad"
+        data-details="1200 sqft | Blue Area"
+        data-price="Rs 250,000/month"
+        data-img="https://smartbenefits.pk/wp-content/uploads/2024/01/KickStart-Co-Working-Space-in-Islamabad-1024x768-1.jpg">
+        Book Appointment
+      </button>
+    </div>
+
+    <div class="card5">
+      <img src="https://pakflagproperties.com/wp-content/uploads/2022/03/arby-towers-bahria-town-karachi.jpg" alt="Apartment in Karachi">
+      <h3>Modern Apartment - Karachi</h3>
+      <p>1 Bed | 1 Bath | Clifton Block 8</p>
+      <p><strong>Rs 85,000/month</strong></p>
+      <button class="btn book-btn"
+        data-title="Modern Apartment - Karachi"
+        data-details="1 Bed | 1 Bath | Clifton Block 8"
+        data-price="Rs 85,000/month"
+        data-img="https://pakflagproperties.com/wp-content/uploads/2022/03/arby-towers-bahria-town-karachi.jpg">
+        Book Appointment
+      </button>
+    </div>
+
+    <div class="card5">
+      <img src="https://media.zameen.com/thumbnails/218488382-800x600.jpeg" alt="Villa in Lahore">
+      <h3>Luxury Villa - Lahore</h3>
+      <p>5 Bed | 6 Bath | Gulberg</p>
+      <p><strong>Rs 350,000/month</strong></p>
+      <button class="btn book-btn"
+        data-title="Luxury Villa - Lahore"
+        data-details="5 Bed | 6 Bath | Gulberg"
+        data-price="Rs 350,000/month"
+        data-img="https://media.zameen.com/thumbnails/218488382-800x600.jpeg">
+        Book Appointment
+      </button>
+    </div>
+
+    <div class="card5">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbSJL3XBTP9kTwTMeSW74lKJWliN2YTdIPSQ&s" alt="Office in Islamabad">
+      <h3>Corporate Office - Islamabad</h3>
+      <p>1800 sqft | G-11 Markaz</p>
+      <p><strong>Rs 280,000/month</strong></p>
+      <button class="btn book-btn"
+        data-title="Corporate Office - Islamabad"
+        data-details="1800 sqft | G-11 Markaz"
+        data-price="Rs 280,000/month"
+        data-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbSJL3XBTP9kTwTMeSW74lKJWliN2YTdIPSQ&s">
+        Book Appointment
+      </button>
+    </div>
+
+    <!-- You can add more cards here as needed -->
+
+  </div>
+</section>
+
+<script>
+// Save selected property and redirect
+document.querySelectorAll('.book-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const property = {
+      title: btn.dataset.title,
+      details: btn.dataset.details,
+      price: btn.dataset.price,
+      img: btn.dataset.img
+    };
+    localStorage.setItem('selectedProperty', JSON.stringify(property));
+    window.location.href = '/appointment';
+  });
+});
+</script>
+
 @endsection
