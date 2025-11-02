@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Hero -->
-<section class="hero center" style="background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') center/cover no-repeat; height: 60vh;">
+<section class="hero center" style="background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') center/cover no-repeat; height: auto;">
   <div>
     <h1>Find Your Ideal Rental</h1>
     <p>Discover premium apartments, houses, and offices for rent across Pakistan.</p>

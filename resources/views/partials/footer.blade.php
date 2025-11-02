@@ -1,6 +1,6 @@
 <footer>
   <div class="footer-container">
-    <p>© 2025 Tabani Real Estate. All Rights Reserved.</p>
+    <p>© 2025 CM Real Estate. All Rights Reserved.</p>
     <div class="footer-links">
       <a href="/">Home</a>
       <a href="/about">About</a>

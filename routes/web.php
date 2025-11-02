@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__.'/auth.php';
 
 
@@ -36,9 +37,19 @@ Route::get('/appointment', function () {
     return view('appointment');
 })->name('appointment');
 
+Route::get('/product', function () {
+    return view('product');
+})->name('product');
+
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
+
+
 Route::get('/appointment/add/{id}', function ($id) {
     $appointments = session()->get('appointments', []);
     $appointments[] = $id;
     session()->put('appointments', $appointments);
     return redirect()->route('appointment');
 })->name('appointment.add');
+

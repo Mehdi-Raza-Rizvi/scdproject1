@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real Estate Website</title>
 
        <!-- Bootstrap CSS -->
@@ -10,7 +11,8 @@
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/rent.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/form-pages.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/from-pages.css') }}">
+    
     
 </head>
 <body>
@@ -24,4 +26,6 @@
 @include('partials.footer')
 
 </body>
+
+
 </html>

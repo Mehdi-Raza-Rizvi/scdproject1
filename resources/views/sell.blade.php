@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Hero -->
-<section class="sell-hero">
+<section class="sell-hero" style=" background: url('https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?_gl=1*yh453r*_ga*NzAzNjIzNTYuMTc2MTkyMzgxOA..*_ga_8JE65Q40S6*czE3NjE5MjM4MTckbzEkZzEkdDE3NjE5MjM4MjEkajU2JGwwJGgw') center/cover no-repeat; height: auto;  ">
   <h1>Sell Your Property</h1>
   <p>List your property today and connect with verified buyers easily.</p>
 </section>
@@ -41,7 +41,7 @@
           </div>
           <div>
             <label>Price (PKR)</label>
-            <input type="number" placeholder="85000" required>
+            <input type="number" placeholder="Rs 85000" required>
           </div>
           <div>
             <label>Area (sqft)</label>

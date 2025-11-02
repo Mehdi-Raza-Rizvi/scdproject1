@@ -34,6 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
       appointmentContainer.innerHTML = '<p class="no-appointment">No appointment scheduled.</p>';
     });
   }
-});
+}); 
 </script>
 @endsection
