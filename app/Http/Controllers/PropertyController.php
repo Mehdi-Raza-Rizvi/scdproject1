@@ -150,4 +150,35 @@ public function storeFromFrontend(Request $request)
     return redirect()->route('properties.sell')
         ->with('success', 'Your property has been listed successfully! It will appear on the homepage soon.');
 }
+
+public function search(Request $request)
+{
+    $query = $request->get('q');
+    
+    if (strlen($query) < 2) {
+        return response()->json(['properties' => []]);
+    }
+    
+    $properties = Property::where('title', 'LIKE', "%{$query}%")
+        ->orWhere('city', 'LIKE', "%{$query}%")
+        ->orWhere('location', 'LIKE', "%{$query}%")
+        ->limit(10)
+        ->get()
+        ->map(function($property) {
+            return [
+                'id' => $property->id,
+                'title' => $property->title,
+                'city' => $property->city,
+                'location' => $property->location,
+                'price_type' => $property->price_type,
+                'price' => $property->price,
+                'image_url' => $property->image_url,
+                'bedrooms' => $property->bedrooms,
+                'bathrooms' => $property->bathrooms,
+                'size' => $property->size
+            ];
+        });
+    
+    return response()->json(['properties' => $properties]);
+}
 }

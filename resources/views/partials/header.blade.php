@@ -19,9 +19,9 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('rent') }}">Rent Property</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('properties.sell') }}">Sell Property</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('brokers.index') }}">Broker</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('appointment') }}">Appointments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('cart') }}">🛒 Cart</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('properties.admin') }}">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}">Admin</a></li>
                     @guest
                         
                     @else
