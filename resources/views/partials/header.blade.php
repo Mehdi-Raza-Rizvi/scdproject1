@@ -18,12 +18,12 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('rent') }}">Rent Property</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('sell') }}">Sell Property</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('properties.sell') }}">Sell Property</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('appointment') }}">Appointments</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('cart') }}">🛒 Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('properties.admin') }}">Admin</a></li>
                     @guest
-                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
+                        
                     @else
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
