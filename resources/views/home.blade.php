@@ -253,13 +253,13 @@
       <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ahmed R">
       <p>"Amazing service! Found my dream home in Islamabad within a week."</p>
       <div class="rating">⭐⭐⭐⭐⭐</div>
-      <span>- Ahmed R.</span>
+      <span>- Abraham R.</span>
     </div>
     <div class="card">
       <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Fatima S">
       <p>"Best property listings in Pakistan. Highly recommended!"</p>
       <div class="rating">⭐⭐⭐⭐⭐</div>
-      <span>- Fatima S.</span>
+      <span>- Feline S.</span>
     </div>
     <div class="card">
       <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Bilal K">
