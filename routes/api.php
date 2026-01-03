@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PropertyApiController;
-use App\Http\Controllers\BrokerApiController;
+use App\Http\Controllers\Api\PropertyApiController;
+use App\Http\Controllers\Api\BrokerApiController;
 
 // Properties API
 Route::get('/properties', [PropertyApiController::class, 'index']);

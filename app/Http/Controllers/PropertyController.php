@@ -159,9 +159,12 @@ public function search(Request $request)
         return response()->json(['properties' => []]);
     }
     
-    $properties = Property::where('title', 'LIKE', "%{$query}%")
-        ->orWhere('city', 'LIKE', "%{$query}%")
-        ->orWhere('location', 'LIKE', "%{$query}%")
+    $properties = Property::where('is_available', true) // Only available properties
+        ->where(function($q) use ($query) {
+            $q->where('title', 'LIKE', "%{$query}%")
+              ->orWhere('city', 'LIKE', "%{$query}%")
+              ->orWhere('location', 'LIKE', "%{$query}%");
+        })
         ->limit(10)
         ->get()
         ->map(function($property) {
@@ -181,4 +184,5 @@ public function search(Request $request)
     
     return response()->json(['properties' => $properties]);
 }
+
 }

@@ -137,170 +137,11 @@
 
 <script>
 // Save selected property and redirect for Book Appointment
-document.querySelectorAll('.book-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const property = {
-      title: btn.dataset.title,
-      details: btn.dataset.details,
-      price: btn.dataset.price,
-      img: btn.dataset.img
-    };
-    localStorage.setItem('selectedProperty', JSON.stringify(property));
-    window.location.href = '/appointment';
-  });
-});
-
-// Add to Cart functionality
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize cart buttons state
-  initializeCartButtons();
-  
-  // Add event listeners to all Add to Cart buttons
-  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      addToCart(this);
-    });
-  });
-});
-
-function addToCart(button) {
-  // Collect property data
-  const property = {
-    id: button.dataset.id,
-    title: button.dataset.title,
-    details: button.dataset.details,
-    price: button.dataset.price,
-    img: button.dataset.img,
-    priceValue: button.dataset.priceValue,
-    priceType: button.dataset.priceType,
-    bedrooms: button.dataset.bedrooms,
-    bathrooms: button.dataset.bathrooms,
-    size: button.dataset.size,
-    location: button.dataset.location,
-    addedAt: new Date().toISOString()
-  };
-  
-  // Check if cart exists in localStorage
-  let cart = JSON.parse(localStorage.getItem('propertyCart')) || [];
-  
-  // Check if property is already in cart
-  const existingIndex = cart.findIndex(item => item.id === property.id);
-  
-  if (existingIndex === -1) {
-    // Add to cart
-    cart.push(property);
-    localStorage.setItem('propertyCart', JSON.stringify(cart));
-    
-    // Show success notification
-    showCartNotification();
-    
-    // Update button text and style
-    button.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 6L9 17l-5-5"></path>
-      </svg>
-      Added to Cart
-    `;
-    button.classList.add('added');
-    button.disabled = true;
-    
-    // Redirect to appointment page after 2 seconds
-    setTimeout(() => {
-      window.location.href = '/appointment';
-    }, 2000);
-    
-  } else {
-    // Property already in cart
-    alert('This property is already in your cart!');
-  }
-}
-
-// Show cart notification
-function showCartNotification() {
-  const notification = document.getElementById('cartNotification');
-  notification.style.display = 'block';
-  notification.classList.add('show');
-  
-  setTimeout(() => {
-    notification.classList.remove('show');
-    setTimeout(() => {
-      notification.style.display = 'none';
-    }, 300);
-  }, 2000);
-}
-
-// Initialize cart buttons based on localStorage
-function initializeCartButtons() {
-  const cart = JSON.parse(localStorage.getItem('propertyCart')) || [];
-  
-  document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-    const propertyId = btn.dataset.id;
-    const isInCart = cart.some(item => item.id === propertyId);
-    
-    if (isInCart) {
-      btn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 6L9 17l-5-5"></path>
-        </svg>
-        Added to Cart
-      `;
-      btn.classList.add('added');
-      btn.disabled = true;
-    }
-  });
-}
-
-// Filter properties
-document.addEventListener('DOMContentLoaded', function() {
-    const priceTypeFilter = document.getElementById('priceTypeFilter');
-    const cityFilter = document.getElementById('cityFilter');
-    const propertyCards = document.querySelectorAll('.property-card');
-
-    function filterProperties() {
-        const selectedPriceType = priceTypeFilter.value;
-        const selectedCity = cityFilter.value;
-
-        propertyCards.forEach(card => {
-            const priceType = card.getAttribute('data-price-type');
-            const city = card.getAttribute('data-city');
-
-            const matchesPriceType = !selectedPriceType || priceType === selectedPriceType;
-            const matchesCity = !selectedCity || city === selectedCity;
-
-            if (matchesPriceType && matchesCity) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    priceTypeFilter.addEventListener('change', filterProperties);
-    cityFilter.addEventListener('change', filterProperties);
-});
-
-// Search Bar Implementation with Highlighting
+// AJAX Search Bar Implementation
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('propertySearch');
     const searchResults = document.getElementById('searchResults');
     let debounceTimer;
-    let allProperties = [];
-
-    // Get initial properties data
-    function initializeProperties() {
-        const propertyCards = document.querySelectorAll('.property-card');
-        allProperties = Array.from(propertyCards).map(card => ({
-            id: card.getAttribute('data-id'),
-            title: card.querySelector('h3').textContent,
-            city: card.getAttribute('data-city'),
-            location: card.querySelector('p').textContent,
-            price: card.querySelector('strong').textContent,
-            image: card.querySelector('img').src,
-            element: card
-        }));
-    }
-
-    initializeProperties();
 
     // Debounce function
     function debounce(func, delay) {
@@ -310,9 +151,9 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Search function
+    // AJAX Search function
     function performSearch() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
+        const searchTerm = searchInput.value.trim();
         
         if (searchTerm.length < 2) {
             searchResults.innerHTML = '';
@@ -321,25 +162,31 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.property-card').forEach(card => {
                 card.style.display = 'block';
             });
-            filterProperties(); // Reapply other filters
             return;
         }
 
-        // Filter properties
-        const filteredProperties = allProperties.filter(property => {
-            const titleMatch = property.title.toLowerCase().includes(searchTerm);
-            const cityMatch = property.city.toLowerCase().includes(searchTerm);
-            const locationMatch = property.location.toLowerCase().includes(searchTerm);
-            return titleMatch || cityMatch || locationMatch;
-        });
-
-        displayResults(filteredProperties, searchTerm);
-        
-        // Hide non-matching properties
-        document.querySelectorAll('.property-card').forEach(card => {
-            const cardId = card.getAttribute('data-id');
-            const isMatch = filteredProperties.some(prop => prop.id === cardId);
-            card.style.display = isMatch ? 'block' : 'none';
+        // Make AJAX request to backend
+        fetch(`/properties/search?q=${encodeURIComponent(searchTerm)}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayResults(data.properties, searchTerm);
+        })
+        .catch(error => {
+            console.error('Search error:', error);
+            searchResults.innerHTML = '<div class="search-result-item no-results">Error loading results</div>';
+            searchResults.style.display = 'block';
         });
     }
 
@@ -348,24 +195,44 @@ document.addEventListener('DOMContentLoaded', function() {
         if (properties.length === 0) {
             searchResults.innerHTML = '<div class="search-result-item no-results">No properties found</div>';
             searchResults.style.display = 'block';
+            // Hide all properties
+            document.querySelectorAll('.property-card').forEach(card => {
+                card.style.display = 'none';
+            });
             return;
         }
 
         let resultsHTML = '';
+        const propertyIds = [];
+        
         properties.forEach(property => {
+            propertyIds.push(property.id.toString());
+            
+            // Build location text
+            let locationText = '';
+            if (property.bedrooms && property.bathrooms) {
+                locationText = `${property.bedrooms} Bed | ${property.bathrooms} Bath | ${property.location}`;
+            } else if (property.size) {
+                locationText = `${property.size} sqft | ${property.location}`;
+            } else {
+                locationText = property.location;
+            }
+
             // Highlight matching text
             const highlightedTitle = highlightText(property.title, searchTerm);
-            const highlightedLocation = highlightText(property.location, searchTerm);
+            const highlightedCity = highlightText(property.city, searchTerm);
+            const highlightedLocation = highlightText(locationText, searchTerm);
 
             resultsHTML += `
                 <div class="search-result-item" data-property-id="${property.id}">
                     <div class="result-image">
-                        <img src="${property.image}" alt="${property.title}">
+                        <img src="${property.image_url}" alt="${property.title}">
                     </div>
                     <div class="result-content">
                         <h4>${highlightedTitle}</h4>
                         <p>${highlightedLocation}</p>
-                        <div class="result-price">${property.price}</div>
+                        <p class="result-city">${highlightedCity}</p>
+                        <div class="result-price">Rs ${Number(property.price).toLocaleString()}/${property.price_type}</div>
                     </div>
                 </div>
             `;
@@ -373,6 +240,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         searchResults.innerHTML = resultsHTML;
         searchResults.style.display = 'block';
+
+        // Show only matching properties in the grid
+        document.querySelectorAll('.property-card').forEach(card => {
+            const cardId = card.getAttribute('data-id');
+            if (propertyIds.includes(cardId)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
 
         // Add click handlers to search results
         document.querySelectorAll('.search-result-item').forEach(item => {
@@ -383,12 +260,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Clear search and hide results
                 searchInput.value = '';
                 searchResults.style.display = 'none';
-                
-                // Show all properties again
-                document.querySelectorAll('.property-card').forEach(card => {
-                    card.style.display = 'block';
-                });
-                filterProperties(); // Reapply other filters
             });
         });
     }
@@ -398,14 +269,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove previous highlights
         document.querySelectorAll('.property-card').forEach(card => {
             card.classList.remove('highlighted-property');
-            card.style.border = '';
-            card.style.transform = '';
         });
 
         // Find and highlight the selected property
         const propertyElement = document.getElementById(`property-${propertyId}`);
         if (propertyElement) {
-            // Add highlight class
             propertyElement.classList.add('highlighted-property');
             
             // Scroll to property with smooth animation
@@ -423,12 +291,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Highlight matching text
     function highlightText(text, searchTerm) {
-        if (!searchTerm) return text;
-        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        if (!searchTerm || !text) return text;
+        const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
         return text.replace(regex, '<span class="highlight">$1</span>');
     }
 
-    // Event listener for search input
+    // Event listener for search input with debounce
     searchInput.addEventListener('input', debounce(performSearch, 300));
 
     // Hide dropdown when clicking outside
@@ -438,40 +306,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Show all properties when search is cleared
+    searchInput.addEventListener('input', function() {
+        if (this.value.trim() === '') {
+            document.querySelectorAll('.property-card').forEach(card => {
+                card.style.display = 'block';
+            });
+        }
+    });
+
     // Keyboard navigation
     searchInput.addEventListener('keydown', function(event) {
         const results = document.querySelectorAll('.search-result-item:not(.no-results)');
         
-        if (event.key === 'ArrowDown' && results.length > 0) {
-            event.preventDefault();
-            if (document.activeElement === searchInput) {
-                results[0].focus();
-            } else {
-                const currentIndex = Array.from(results).indexOf(document.activeElement);
-                const nextIndex = (currentIndex + 1) % results.length;
-                results[nextIndex].focus();
-            }
-        }
-        
-        if (event.key === 'ArrowUp' && results.length > 0) {
-            event.preventDefault();
-            const currentIndex = Array.from(results).indexOf(document.activeElement);
-            const prevIndex = currentIndex > 0 ? currentIndex - 1 : results.length - 1;
-            results[prevIndex].focus();
-        }
-        
-        if (event.key === 'Enter' && document.activeElement.classList.contains('search-result-item')) {
-            const propertyId = document.activeElement.getAttribute('data-property-id');
-            highlightProperty(propertyId);
-            searchResults.style.display = 'none';
-            searchInput.value = '';
-        }
-        
         if (event.key === 'Escape') {
             searchResults.style.display = 'none';
+            searchInput.value = '';
+            document.querySelectorAll('.property-card').forEach(card => {
+                card.style.display = 'block';
+            });
         }
     });
 });
+
 </script>
 
 <style>
