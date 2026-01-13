@@ -57,7 +57,7 @@
 
   <!-- Cart Notification -->
   <div id="cartNotification" class="cart-notification">
-    <span>Property added to cart! Redirecting...</span>
+    <span>Property added to cart!</span>
   </div>
 
   @if($properties->count() > 0)
@@ -86,13 +86,7 @@
           <div class="property-actions">
             <button class="btn book-btn"
               data-title="{{ $property->title }}"
-              data-details="
-                  @if($property->bedrooms && $property->bathrooms)
-                      {{ $property->bedrooms }} Bed | {{ $property->bathrooms }} Bath | 
-                  @elseif($property->size)
-                      {{ $property->size }} sqft | 
-                  @endif
-                  {{ $property->location }}"
+              data-details="@if($property->bedrooms && $property->bathrooms){{ $property->bedrooms }} Bed | {{ $property->bathrooms }} Bath | @elseif($property->size){{ $property->size }} sqft | @endif{{ $property->location }}"
               data-price="Rs {{ number_format($property->price) }}/{{ $property->price_type }}"
               data-img="{{ $property->image_url }}">
               Book Appointment
@@ -101,20 +95,14 @@
             <button class="btn cart-btn add-to-cart-btn"
               data-id="{{ $property->id }}"
               data-title="{{ $property->title }}"
-              data-details="
-                  @if($property->bedrooms && $property->bathrooms)
-                      {{ $property->bedrooms }} Bed | {{ $property->bathrooms }} Bath | 
-                  @elseif($property->size)
-                      {{ $property->size }} sqft | 
-                  @endif
-                  {{ $property->location }}"
+              data-details="@if($property->bedrooms && $property->bathrooms){{ $property->bedrooms }} Bed | {{ $property->bathrooms }} Bath | @elseif($property->size){{ $property->size }} sqft | @endif{{ $property->location }}"
               data-price="Rs {{ number_format($property->price) }}/{{ $property->price_type }}"
               data-img="{{ $property->image_url }}"
               data-price-value="{{ $property->price }}"
               data-price-type="{{ $property->price_type }}"
-              data-bedrooms="{{ $property->bedrooms }}"
-              data-bathrooms="{{ $property->bathrooms }}"
-              data-size="{{ $property->size }}"
+              data-bedrooms="{{ $property->bedrooms ?? '' }}"
+              data-bathrooms="{{ $property->bathrooms ?? '' }}"
+              data-size="{{ $property->size ?? '' }}"
               data-location="{{ $property->location }}">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
@@ -136,9 +124,233 @@
 </section>
 
 <script>
-// Save selected property and redirect for Book Appointment
-// AJAX Search Bar Implementation
+// ============================================
+// MAIN INITIALIZATION
+// ============================================
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Page loaded - Initializing all functionality...');
+    
+    // Initialize all features
+    initializeBookAppointment();
+    initializeCartFunctionality();
+    initializeSearch();
+    initializeFilters();
+    
+    console.log('✅ All features initialized successfully');
+});
+
+// ============================================
+// BOOK APPOINTMENT FUNCTIONALITY
+// ============================================
+function initializeBookAppointment() {
+    console.log('📅 Initializing Book Appointment buttons...');
+    
+    document.querySelectorAll('.book-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const property = {
+                title: this.dataset.title,
+                details: this.dataset.details,
+                price: this.dataset.price,
+                img: this.dataset.img
+            };
+            
+            console.log('📅 Booking property:', property);
+            
+            try {
+                localStorage.setItem('selectedProperty', JSON.stringify(property));
+                console.log('✅ Property saved for booking');
+                window.location.href = '/appointment';
+            } catch (error) {
+                console.error('❌ Error saving booking:', error);
+                alert('Error booking property. Please try again.');
+            }
+        });
+    });
+    
+    console.log(`✅ ${document.querySelectorAll('.book-btn').length} Book Appointment buttons initialized`);
+}
+
+// ============================================
+// ADD TO CART FUNCTIONALITY (FIXED)
+// ============================================
+function initializeCartFunctionality() {
+    console.log('🛒 Initializing Cart functionality...');
+    
+    // Initialize cart buttons state on page load
+    initializeCartButtons();
+    
+    // Add event listeners to all Add to Cart buttons
+    const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+    console.log(`🛒 Found ${cartButtons.length} cart buttons`);
+    
+    cartButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('🛒 Cart button clicked for property ID:', this.dataset.id);
+            addToCart(this);
+        });
+    });
+}
+
+function addToCart(button) {
+    console.log('🛒 addToCart function called');
+    
+    // Collect property data from button attributes
+    const property = {
+        id: button.dataset.id,
+        title: button.dataset.title,
+        details: button.dataset.details,
+        price: button.dataset.price,
+        img: button.dataset.img,
+        priceValue: button.dataset.priceValue,
+        priceType: button.dataset.priceType,
+        bedrooms: button.dataset.bedrooms,
+        bathrooms: button.dataset.bathrooms,
+        size: button.dataset.size,
+        location: button.dataset.location,
+        addedAt: new Date().toISOString()
+    };
+    
+    console.log('🛒 Property data:', property);
+    
+    // Get existing cart or initialize empty array
+    let cart = [];
+    try {
+        const cartData = localStorage.getItem('propertyCart');
+        cart = cartData ? JSON.parse(cartData) : [];
+        console.log('🛒 Existing cart:', cart);
+    } catch (error) {
+        console.error('❌ Error reading cart:', error);
+        cart = [];
+    }
+    
+    // Check if property already exists in cart
+    const existingIndex = cart.findIndex(item => item.id === property.id);
+    
+    if (existingIndex === -1) {
+        // Add new property to cart
+        cart.push(property);
+        
+        // Save to localStorage
+        try {
+            localStorage.setItem('propertyCart', JSON.stringify(cart));
+            console.log('✅ Cart saved to localStorage:', cart);
+        } catch (error) {
+            console.error('❌ Error saving cart:', error);
+            alert('Error saving to cart. Please try again.');
+            return;
+        }
+        
+        // Update button appearance
+        updateButtonState(button, true);
+        
+        // Show success notification
+        showCartNotification('Property added to cart! Redirecting...');
+        
+        // Redirect to appointment page after 2 seconds
+        console.log('🔄 Redirecting to appointment page in 2 seconds...');
+        setTimeout(() => {
+            console.log('🔄 Redirecting now...');
+            window.location.href = '/appointment';
+        }, 2000);
+        
+    } else {
+        // Property already in cart
+        console.log('⚠️ Property already in cart');
+        showCartNotification('This property is already in your cart!');
+        
+        // Still redirect to appointment page
+        setTimeout(() => {
+            window.location.href = '/appointment';
+        }, 1500);
+    }
+}
+
+// Update button state (added/not added)
+function updateButtonState(button, isAdded) {
+    if (isAdded) {
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            Added to Cart
+        `;
+        button.classList.add('added');
+        button.disabled = true;
+    } else {
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            Add to Cart
+        `;
+        button.classList.remove('added');
+        button.disabled = false;
+    }
+}
+
+// Show cart notification
+function showCartNotification(message) {
+    const notification = document.getElementById('cartNotification');
+    
+    if (!notification) {
+        console.error('❌ Cart notification element not found');
+        return;
+    }
+    
+    // Update message
+    notification.querySelector('span').textContent = message;
+    
+    // Show notification
+    notification.style.display = 'block';
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Hide after 2 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 300);
+    }, 2000);
+}
+
+// Initialize cart buttons based on localStorage
+function initializeCartButtons() {
+    console.log('🔄 Initializing cart button states...');
+    
+    let cart = [];
+    try {
+        const cartData = localStorage.getItem('propertyCart');
+        cart = cartData ? JSON.parse(cartData) : [];
+        console.log('🛒 Cart loaded:', cart.length, 'items');
+    } catch (error) {
+        console.error('❌ Error loading cart:', error);
+        cart = [];
+    }
+    
+    // Update all buttons based on cart contents
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        const propertyId = btn.dataset.id;
+        const isInCart = cart.some(item => item.id === propertyId);
+        
+        if (isInCart) {
+            updateButtonState(btn, true);
+        }
+    });
+}
+
+// ============================================
+// AJAX SEARCH FUNCTIONALITY
+// ============================================
+function initializeSearch() {
+    console.log('🔍 Initializing Search functionality...');
+    
     const searchInput = document.getElementById('propertySearch');
     const searchResults = document.getElementById('searchResults');
     let debounceTimer;
@@ -158,12 +370,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchTerm.length < 2) {
             searchResults.innerHTML = '';
             searchResults.style.display = 'none';
-            // Show all properties when search is cleared
             document.querySelectorAll('.property-card').forEach(card => {
                 card.style.display = 'block';
             });
             return;
         }
+
+        console.log('🔍 Searching for:', searchTerm);
 
         // Make AJAX request to backend
         fetch(`/properties/search?q=${encodeURIComponent(searchTerm)}`, {
@@ -181,10 +394,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
+            console.log('✅ Search results:', data.properties.length, 'properties found');
             displayResults(data.properties, searchTerm);
         })
         .catch(error => {
-            console.error('Search error:', error);
+            console.error('❌ Search error:', error);
             searchResults.innerHTML = '<div class="search-result-item no-results">Error loading results</div>';
             searchResults.style.display = 'block';
         });
@@ -195,7 +409,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (properties.length === 0) {
             searchResults.innerHTML = '<div class="search-result-item no-results">No properties found</div>';
             searchResults.style.display = 'block';
-            // Hide all properties
             document.querySelectorAll('.property-card').forEach(card => {
                 card.style.display = 'none';
             });
@@ -208,7 +421,6 @@ document.addEventListener('DOMContentLoaded', function() {
         properties.forEach(property => {
             propertyIds.push(property.id.toString());
             
-            // Build location text
             let locationText = '';
             if (property.bedrooms && property.bathrooms) {
                 locationText = `${property.bedrooms} Bed | ${property.bathrooms} Bath | ${property.location}`;
@@ -218,7 +430,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 locationText = property.location;
             }
 
-            // Highlight matching text
             const highlightedTitle = highlightText(property.title, searchTerm);
             const highlightedCity = highlightText(property.city, searchTerm);
             const highlightedLocation = highlightText(locationText, searchTerm);
@@ -241,72 +452,50 @@ document.addEventListener('DOMContentLoaded', function() {
         searchResults.innerHTML = resultsHTML;
         searchResults.style.display = 'block';
 
-        // Show only matching properties in the grid
         document.querySelectorAll('.property-card').forEach(card => {
             const cardId = card.getAttribute('data-id');
-            if (propertyIds.includes(cardId)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
+            card.style.display = propertyIds.includes(cardId) ? 'block' : 'none';
         });
 
-        // Add click handlers to search results
         document.querySelectorAll('.search-result-item').forEach(item => {
             item.addEventListener('click', function() {
                 const propertyId = this.getAttribute('data-property-id');
                 highlightProperty(propertyId);
-                
-                // Clear search and hide results
                 searchInput.value = '';
                 searchResults.style.display = 'none';
             });
         });
     }
 
-    // Function to highlight a property
     function highlightProperty(propertyId) {
-        // Remove previous highlights
         document.querySelectorAll('.property-card').forEach(card => {
             card.classList.remove('highlighted-property');
         });
 
-        // Find and highlight the selected property
         const propertyElement = document.getElementById(`property-${propertyId}`);
         if (propertyElement) {
             propertyElement.classList.add('highlighted-property');
-            
-            // Scroll to property with smooth animation
-            propertyElement.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-
-            // Remove highlight after 3 seconds
+            propertyElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
             setTimeout(() => {
                 propertyElement.classList.remove('highlighted-property');
             }, 3000);
         }
     }
 
-    // Highlight matching text
     function highlightText(text, searchTerm) {
         if (!searchTerm || !text) return text;
         const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
         return text.replace(regex, '<span class="highlight">$1</span>');
     }
 
-    // Event listener for search input with debounce
     searchInput.addEventListener('input', debounce(performSearch, 300));
 
-    // Hide dropdown when clicking outside
     document.addEventListener('click', function(event) {
         if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
             searchResults.style.display = 'none';
         }
     });
 
-    // Show all properties when search is cleared
     searchInput.addEventListener('input', function() {
         if (this.value.trim() === '') {
             document.querySelectorAll('.property-card').forEach(card => {
@@ -315,10 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Keyboard navigation
     searchInput.addEventListener('keydown', function(event) {
-        const results = document.querySelectorAll('.search-result-item:not(.no-results)');
-        
         if (event.key === 'Escape') {
             searchResults.style.display = 'none';
             searchInput.value = '';
@@ -327,9 +513,50 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-});
+    
+    console.log('✅ Search functionality initialized');
+}
 
+// ============================================
+// FILTER FUNCTIONALITY
+// ============================================
+function initializeFilters() {
+    console.log('🔧 Initializing Filters...');
+    
+    const priceTypeFilter = document.getElementById('priceTypeFilter');
+    const cityFilter = document.getElementById('cityFilter');
+
+    function filterProperties() {
+        const selectedPriceType = priceTypeFilter.value;
+        const selectedCity = cityFilter.value;
+        
+        console.log('🔧 Filtering - Price Type:', selectedPriceType || 'All', '| City:', selectedCity || 'All');
+
+        document.querySelectorAll('.property-card').forEach(card => {
+            const priceType = card.getAttribute('data-price-type');
+            const city = card.getAttribute('data-city');
+
+            const matchesPriceType = !selectedPriceType || priceType === selectedPriceType;
+            const matchesCity = !selectedCity || city === selectedCity;
+
+            card.style.display = (matchesPriceType && matchesCity) ? 'block' : 'none';
+        });
+    }
+
+    priceTypeFilter.addEventListener('change', filterProperties);
+    cityFilter.addEventListener('change', filterProperties);
+    
+    console.log('✅ Filters initialized');
+}
+
+// Optional: Clear cart function (for testing in console)
+function clearCart() {
+    localStorage.removeItem('propertyCart');
+    console.log('🧹 Cart cleared');
+    location.reload();
+}
 </script>
+
 
 <style>
 /* Property Actions */
@@ -385,36 +612,47 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 /* Cart Notification */
+/* Cart Notification - Fixed */
 .cart-notification {
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: -400px; /* Start off-screen */
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
     padding: 15px 25px;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
     display: none;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
+    transition: right 0.3s ease-in-out;
+    min-width: 300px;
 }
 
 .cart-notification.show {
-    transform: translateX(0);
+    display: block;
+    right: 20px; /* Slide in from right */
 }
 
 .cart-notification span {
     display: flex;
     align-items: center;
     gap: 10px;
+    font-weight: 500;
 }
 
 .cart-notification span::before {
     content: '✓';
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
 
 /* Search Bar Styles */
 .search-wrapper {
